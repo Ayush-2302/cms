@@ -8,12 +8,12 @@ import authRoutes from "./routes/authRoutes.js";
 import carRoutes from "./routes/carRoutes.js";
 
 const app = express();
-app.use(cors("*"));
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser("secret_key"));
 app.use("/api/images", express.static(path.join("uploads")));
-  
+
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cars", carRoutes);
