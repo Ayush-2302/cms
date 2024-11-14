@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+.blue{
+  background: #4600f2;
+}
+
+
+.Toastify__toast {
+  border-radius: 8px; 
+  padding: 10px 20px; 
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.Toastify__toast--success {
+  background-color: #28a745; 
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out; 
+}
+
+.Toastify__toast--error {
+  background-color: #dc3545; 
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.Toastify__toast-container {
+  transition: opacity 0.3s ease; 
+}
+
+
+
+
+
+
