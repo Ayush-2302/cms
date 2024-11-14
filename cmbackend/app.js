@@ -8,22 +8,36 @@ import authRoutes from "./routes/authRoutes.js";
 import carRoutes from "./routes/carRoutes.js";
 
 const app = express();
-app.use(cors({ origin: "*" }));
+
+// CORS setup to allow universal access
+app.use(
+  cors({
+    origin: "*", // Allow any origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow specific methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+    credentials: true, // Allow cookies (optional)
+  })
+);
+
+// Middleware to handle body parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser("secret_key"));
+
+// Static file serving for images
 app.use("/api/images", express.static(path.join("uploads")));
 
-// routes
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cars", carRoutes);
 
+// Root route (for testing purposes)
 app.get("/", async (req, res) => {
   res.cookie("greet", "hello", { signed: true });
   res.send("hello");
 });
 
-// Error-handling middleware should be defined after all other middleware and routes
+// Error handling middleware
 app.all("*", (req, res, next) => {
   next(new EXpressErr(404, "Page Not Found!", false));
 });
