@@ -27,6 +27,9 @@ app.use(cookieParser("secret_key"));
 // Static file serving for images
 app.use("/api/images", express.static(path.join("uploads")));
 
+// Handle preflight requests (necessary for some browsers with complex requests)
+app.options("*", cors());  // Allow preflight for all routes
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cars", carRoutes);
