@@ -9,26 +9,14 @@ import carRoutes from "./routes/carRoutes.js";
 
 const app = express();
 
-// CORS setup to allow universal access
-app.use(
-  cors({
-    origin: "*", // Allow any origin
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow specific methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
-    credentials: true, // Allow cookies (optional)
-  })
-);
+app.use(cors());
 
 // Middleware to handle body parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser("secret_key"));
 
-// Static file serving for images
 app.use("/api/images", express.static(path.join("uploads")));
-
-// Handle preflight requests (necessary for some browsers with complex requests)
-app.options("*", cors());  // Allow preflight for all routes
 
 // Routes
 app.use("/api/auth", authRoutes);
