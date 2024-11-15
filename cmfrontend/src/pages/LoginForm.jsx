@@ -21,7 +21,7 @@ const LoginForm = () => {
   const handleSubmit = async (values, { resetForm }) => {
     const response = await loginApi(values);
     if (response.status === 200) {
-      navigate("/cars");
+      navigate("/");
       resetForm();
       window.location.reload();
     }
