@@ -1,0 +1,250 @@
+### Authentication Endpoints
+
+1. **POST /api/auth/signup**
+- **Description**: Registers a new user.
+- **Request Body**:
+json
+{
+"username": "exampleuser",
+"email": "[example@example.com](mailto:example@example.com)",
+"password": "password123"
+}
+- **Response (Success)**:
+- **Status**: `201 Created`
+- **Body**:
+json
+{
+"message": "User registered",
+"user": {
+"_id": "60d76d67d2337c001f5f4a2b",
+"username": "exampleuser",
+"email": "[example@example.com](mailto:example@example.com)",
+"password": "hashedpassword"
+}
+}
+- **Response (Error)**:
+    - **Status**: `400 Bad Request`
+    - **Body**:
+    json
+    {
+    "message": "Error creating user",
+    "error": "Some error details here"
+    }
+
+---
+
+1. **POST /api/auth/login**
+- **Description**: Logs in a user and returns a JWT token.
+- **Request Body**:
+json
+{
+"email": "[example@example.com](mailto:example@example.com)",
+"password": "password123"
+}
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "message": "Logged in successfully",
+    "token": "your.jwt.token"
+    }
+- **Response (Error)**:
+    - **Status**: `400 Bad Request`
+    - **Body**:
+    json
+    {
+    "message": "Invalid credentials"
+    }
+
+### Car Management Endpoints
+
+1. **POST /api/cars/create-car**
+- **Description**: Creates a new car listing.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Request Body** (Form-data):
+    - **title**: "2020 Toyota Corolla"
+    - **description**: "A reliable compact sedan."
+    - **tags**: ["sedan", "toyota", "2020"]
+    - **images**: Upload one or more images using the form-data field (e.g., `images[]`).
+- **Response (Success)**:
+    - **Status**: `201 Created`
+    - **Body**:
+    json
+    {
+    "_id": "60d77c7f7b12f23456789abc",
+    "title": "2020 Toyota Corolla",
+    "description": "A reliable compact sedan.",
+    "tags": ["sedan", "toyota", "2020"],
+    "images": ["image1.jpg", "image2.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    }
+- **Response (Error)**:
+    - **Status**: `401 Unauthorized`
+    - **Body**:
+    json
+    {
+    "message": "Unauthorized"
+    }
+1. **GET /api/cars/get-cars**
+- **Description**: Fetches all car listings.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "carList": [
+    {
+    "_id": "60d77c7f7b12f23456789abc",
+    "title": "2020 Toyota Corolla",
+    "description": "A reliable compact sedan.",
+    "tags": ["sedan", "toyota", "2020"],
+    "images": ["image1.jpg", "image2.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    },
+    {
+    "_id": "60d77c8f7b12f23456789abd",
+    "title": "2021 Honda Civic",
+    "description": "A sporty compact car.",
+    "tags": ["sedan", "honda", "2021"],
+    "images": ["image3.jpg", "image4.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    }
+    ]
+    }
+- **Response (Error)**:
+    - **Status**: `500 Internal Server Error`
+    - **Body**:
+    json
+    {
+    "message": "Error fetching cars"
+    }
+
+---
+
+1. **GET /api/cars/get-user-cars**
+- **Description**: Fetches cars listed by the current authenticated user.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "carList": [
+    {
+    "_id": "60d77c7f7b12f23456789abc",
+    "title": "2020 Toyota Corolla",
+    "description": "A reliable compact sedan.",
+    "tags": ["sedan", "toyota", "2020"],
+    "images": ["image1.jpg", "image2.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    }
+    ]
+    }
+- **Response (Error)**:
+    - **Status**: `401 Unauthorized`
+    - **Body**:
+    json
+    {
+    "message": "Unauthorized"
+    }
+
+---
+
+1. **GET /api/cars/get-car/:car_id**
+- **Description**: Fetches a car listing by its ID.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Request URL**: `http://localhost:5000/api/cars/get-car/60d77c7f7b12f23456789abc`
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "_id": "60d77c7f7b12f23456789abc",
+    "title": "2020 Toyota Corolla",
+    "description": "A reliable compact sedan.",
+    "tags": ["sedan", "toyota", "2020"],
+    "images": ["image1.jpg", "image2.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    }
+- **Response (Error)**:
+    - **Status**: `404 Not Found`
+    - **Body**:
+    json
+    {
+    "message": "Car not found"
+    }
+
+---
+
+1. **PUT /api/cars/update-car/:car_id**
+- **Description**: Updates a car listing.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Request URL**: `http://localhost:5000/api/cars/update-car/60d77c7f7b12f23456789abc`
+- **Request Body** (Form-data):
+    - **title**: "2021 Toyota Corolla"
+    - **description**: "Updated description for the Toyota Corolla."
+    - **tags**: ["sedan", "toyota", "2021"]
+    - **images**: Upload updated images if necessary.
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "_id": "60d77c7f7b12f23456789abc",
+    "title": "2021 Toyota Corolla",
+    "description": "Updated description for the Toyota Corolla.",
+    "tags": ["sedan", "toyota", "2021"],
+    "images": ["image1_updated.jpg", "image2_updated.jpg"],
+    "user": "60d76d67d2337c001f5f4a2b"
+    }
+- **Response (Error)**:
+    - **Status**: `404 Not Found`
+    - **Body**:
+    json
+    {
+    "message": "Car not found"
+    }
+
+---
+
+1. **DELETE /api/cars/delete-car/:car_id**
+- **Description**: Deletes a car listing.
+- **Authorization**: Requires JWT token in the `Authorization` header.
+- **Request URL**: `http://localhost:5000/api/cars/delete-car/60d77c7f7b12f23456789abc`
+- **Response (Success)**:
+    - **Status**: `200 OK`
+    - **Body**:
+    json
+    {
+    "message": "Car deleted successfully"
+    }
+- **Response (Error)**:
+    - **Status**: `404 Not Found`
+    - **Body**:
+    json
+    {
+    "message": "Car not found"
+    }
+
+---
+
+### Example Authorization Header:
+
+For all requests requiring authentication (like `create-car`, `get-cars`, etc.), use the following format for the Authorization header:
+
+plaintext
+Authorization: Bearer your_jwt_token
+
+You can replace `your_jwt_token` with the actual JWT token received from the login endpoint.
+
+---
+
+### Conclusion:
+
+Sample user
+{
+“email”: “rohan@gmail.com”,
+“password”:”rohan123”
+}

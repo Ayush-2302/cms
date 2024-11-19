@@ -16,7 +16,7 @@ const Home = () => {
       <div className="flex space-x-4">
         <Link
           to="/signup"
-          className="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pHover transition duration-200"
+          className="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-200"
         >
           Get Started
         </Link>
